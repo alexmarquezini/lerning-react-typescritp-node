@@ -2,7 +2,9 @@
 
 # Full-Stack React, TypeScript, and Node
 
-![](./img/full-stack_react_typescript_and_node.png)
+<a href="https://www.packtpub.com/product/full-stack-react-typescript-and-node/9781839219931">
+    <img src="./img/full-stack_react_typescript_and_node.png"/>
+</a>
 
 # About this book
 
