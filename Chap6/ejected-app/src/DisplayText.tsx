@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
-const DisplayText = () => {
+interface DisplayTextProps {
+  getUserFullName: (username: string) => Promise<string>;
+}
+
+const DisplayText: FC<DisplayTextProps> = ({ getUserFullName }) => {
   const [txt, setTxt] = useState("");
   const [msg, setMsg] = useState("");
   const onChangeTxt = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTxt(e.target.value);
   };
-  const onClickShowMsg = (
+  const onClickShowMsg = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    setMsg(`Welcome to react testing, ${txt}`);
+    setMsg(`Welcome to react testing, ${await getUserFullName(txt)}`);
   };
   return (
     <form>
@@ -28,7 +32,6 @@ const DisplayText = () => {
       <div>
         <label data-testid="final-msg">{msg}</label>
       </div>
-      <div>this is just a test entry</div>
     </form>
   );
 };
