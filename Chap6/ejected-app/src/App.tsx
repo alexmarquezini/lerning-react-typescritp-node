@@ -32,10 +32,10 @@ function App() {
         >
           Learn React
         </a>
+        <div className="App">
+          <DisplayText getUserFullname={getUserFullName} />
+        </div>
       </header>
-      <div className="App">
-        <DisplayText getUserFullName={getUserFullName} />
-      </div>
     </div>
   );
 }

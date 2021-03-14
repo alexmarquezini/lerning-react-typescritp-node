@@ -1,12 +1,15 @@
-import React, { FC, useState } from "react";
-
+import React, { useState, FC } from "react";
+import UserTodos from "./UserTodos";
 interface DisplayTextProps {
-  getUserFullName: (username: string) => Promise<string>;
+  getUserFullname: (username: string) => Promise<string>;
 }
-
-const DisplayText: FC<DisplayTextProps> = ({ getUserFullName }) => {
+const DisplayText: FC<DisplayTextProps> = ({ getUserFullname }) => {
   const [txt, setTxt] = useState("");
   const [msg, setMsg] = useState("");
+  const [todoControl, setTodoControl] = useState<
+    ReturnType<typeof UserTodos>
+  >();
+
   const onChangeTxt = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTxt(e.target.value);
   };
@@ -14,7 +17,9 @@ const DisplayText: FC<DisplayTextProps> = ({ getUserFullName }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    setMsg(`Welcome to react testing, ${await getUserFullName(txt)}`);
+    setTodoControl(null);
+    setMsg(`Welcome to react testing, ${await getUserFullname(txt)}`);
+    setTodoControl(<UserTodos username={txt} />);
   };
   return (
     <form>
@@ -32,8 +37,8 @@ const DisplayText: FC<DisplayTextProps> = ({ getUserFullName }) => {
       <div>
         <label data-testid="final-msg">{msg}</label>
       </div>
+      {todoControl}
     </form>
   );
 };
-
 export default DisplayText;

@@ -3,34 +3,36 @@ import { render, fireEvent, cleanup, wait } from "@testing-library/react";
 import DisplayText from "./DisplayText";
 import "@testing-library/jest-dom/extend-expect";
 
+jest.mock("./UserTodos");
 afterEach(cleanup);
 describe("Test DisplayText", () => {
-  const getUserFullNameMock = (
+
+  const getUserFullnameMock = (
     username: string
   ): [Promise<string>, jest.Mock<Promise<string>, [string]>] => {
     const promise = new Promise<string>((res, rej) => {
       res(username);
     });
-    const getUserFullName = jest.fn(
+    const getUserFullname = jest.fn(
       async (username: string): Promise<string> => {
         return promise;
       }
     );
-    return [promise, getUserFullName];
+    return [promise, getUserFullname];
   };
   it("Renders without crashing", () => {
     const username = "testuser";
-    const [promise, getUserFullName] = getUserFullNameMock(username);
+    const [promise, getUserFullname] = getUserFullnameMock(username);
     const { baseElement } = render(
-      <DisplayText getUserFullName={getUserFullName} />
+      <DisplayText getUserFullname={getUserFullname} />
     );
     expect(baseElement).toBeInTheDocument();
   });
   it("receives input text", () => {
     const username = "testuser";
-    const [promise, getUserFullName] = getUserFullNameMock(username);
+    const [promise, getUserFullname] = getUserFullnameMock(username);
     const { getByTestId } = render(
-      <DisplayText getUserFullName={getUserFullName} />
+      <DisplayText getUserFullname={getUserFullname} />
     );
     const input = getByTestId("user-input");
     fireEvent.change(input, { target: { value: username } });
@@ -39,10 +41,10 @@ describe("Test DisplayText", () => {
   });
   it("shows welcome message", async () => {
     const username = "testuser";
-    const [promise, getUserFullName] = getUserFullNameMock(username);
+    const [promise, getUserFullname] = getUserFullnameMock(username);
     const msg = `Welcome to react testing, ${username}`;
     const { getByTestId } = render(
-      <DisplayText getUserFullName={getUserFullName} />
+      <DisplayText getUserFullname={getUserFullname} />
     );
     const input = getByTestId("user-input");
     const label = getByTestId("final-msg");
@@ -56,9 +58,9 @@ describe("Test DisplayText", () => {
   });
   it("matches snapshot", () => {
     const username = "testuser";
-    const [promise, getUserFullName] = getUserFullNameMock(username);
+    const [promise, getUserFullname] = getUserFullnameMock(username);
     const { baseElement } = render(
-      <DisplayText getUserFullName={getUserFullName} />
+      <DisplayText getUserFullname={getUserFullname} />
     );
     expect(baseElement).toMatchSnapshot();
   });
